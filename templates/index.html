@@ -1,0 +1,26 @@
+{% block content %}
+<html>
+    <head>
+    <meta charset="utf-8">
+    <style>
+        body, table { font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; font-size: 12px; }
+        a { text-decoration: none; color: #000000; }
+        tr:hover { background: #bccae0; color: #ffe; } 
+    </style>
+    </head>
+    <body>
+        <table>
+            <tbody>
+            <h3>Top</h3>
+            {% for i in content %}
+                <tr>
+                    <td>{{ content.index(i)+1 }})</td>
+                    <td><a href='{{ i["link"] }}'>{{ i["name"] }}</a></td>
+                    <td>{{ i["size"] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
+{% endblock %}
