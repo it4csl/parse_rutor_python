@@ -1,8 +1,10 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import requests
 from bs4 import BeautifulSoup
 from flask import Flask
+from flask import request
 from flask import render_template
 
 all_link_and_name_and_size = []
@@ -36,20 +38,21 @@ def get_data(html):
 
             all_link_and_name_and_size.append({"link": a_href, "name": a_text, "size": size})
 
-for i in range(0, 30):
-    new_url = "http://rutor.info/browse/{}/1/0/2".format(i)
-    get_data(get_html(new_url))
-    print("parse ", i)
-
 def sort_list_dict(how):
     all_link_and_name_and_size.sort(key=lambda d: d[how])
 
-sort_list_dict("name")
-
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
+    if (request.method == "GET"):
+        for i in range(0, 30):
+            new_url = "http://rutor.info/browse/{}/1/0/2".format(i)
+            get_data(get_html(new_url))
+            print("parse ", i)
+
+        sort_list_dict("name")
+
     return render_template("index.html", content=all_link_and_name_and_size)
 
 app.run(debug = True)
