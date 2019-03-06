@@ -11,7 +11,16 @@
     <body>
         <table>
             <tbody>
-            <h3>Top</h3>
+                <tr>
+                    <td>
+                        <h3><a href="http://localhost:5000/kino">kino</a></h3>
+                    </td>
+                    <td>
+                        <h3><a href="http://localhost:5000/new">new</a></h3>
+                    </td>
+                </tr>
+                
+                
             {% for i in content %}
                 <tr>
                     <td>{{ content.index(i)+1 }})</td>
