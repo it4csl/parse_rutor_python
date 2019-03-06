@@ -63,4 +63,4 @@ def kino():
 
     return render_template("index.html", content=all_link_and_name_and_size)
 
-app.run(debug = True)
+app.run(debug = True, host = "localhost")
