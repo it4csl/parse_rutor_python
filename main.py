@@ -43,15 +43,23 @@ def sort_list_dict(how):
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET"])
-def index():
-    if (request.method == "GET"):
-        for i in range(0, 30):
-            new_url = "http://rutor.info/browse/{}/1/0/2".format(i)
-            get_data(get_html(new_url))
-            print("parse ", i)
+@app.route("/new", methods=["GET"])
+def new():
+    all_link_and_name_and_size.clear()
+    get_data(get_html("http://rutor.info/new"))
+    sort_list_dict("name")
+    print("parse new")
+    return render_template("index.html", content=all_link_and_name_and_size)
 
-        sort_list_dict("name")
+@app.route("/kino", methods=["GET"])
+def kino():
+    all_link_and_name_and_size.clear()
+    for i in range(0, 30):
+        new_url = "http://rutor.info/browse/{}/1/0/2".format(i)
+        get_data(get_html(new_url))
+        print("parse kino ", i)
+
+    sort_list_dict("name")
 
     return render_template("index.html", content=all_link_and_name_and_size)
 
