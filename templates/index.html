@@ -2,10 +2,11 @@
 <html>
     <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
     <style>
-        body, table { font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; font-size: 12px; }
-        a { text-decoration: none; color: #000000; }
-        tr:hover { background: #bccae0; color: #ffe; } 
+        body, table { font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;  font-size: 12px; }
+        /* a { text-decoration: none; color: #000000; } */
+        /* tr:hover { background: #bccae0; color: #ffe; }  */
     </style>
     </head>
     <body>
@@ -13,19 +14,21 @@
             <tbody>
                 <tr>
                     <td>
-                        <h3><a href="http://localhost:5000/kino">kino</a></h3>
+                        <h3><a class="btn btn-secondary btn-sm" href="http://localhost:5000/kino" role="button">kino</a></h3>
                     </td>
                     <td>
-                        <h3><a href="http://localhost:5000/new">new</a></h3>
+                        <h3><a class="btn btn-secondary btn-sm" href="http://localhost:5000/new" role="button">new</a></h3>
                     </td>
                 </tr>
-                
-                
+            </tbody>
+        </table>
+        <table>
+            <tbody class="list-group">
             {% for i in content %}
-                <tr>
+                <tr class="btn-secondary">
                     <td>{{ content.index(i)+1 }})</td>
-                    <td><a href='{{ i["link"] }}'>{{ i["name"] }}</a></td>
-                    <td>{{ i["size"] }}</td>
+                    <td style="padding-left: 10px"><a class="btn-secondary" href='{{ i["link"] }}'>{{ i["name"] }}</a></td>
+                    <td style="padding-left: 10px">{{ i["size"] }}</td>
                 </tr>
             {% endfor %}
             </tbody>
