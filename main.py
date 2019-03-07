@@ -6,14 +6,13 @@ from bs4 import BeautifulSoup
 from flask import Flask
 from flask import request
 from flask import render_template
+from multiprocessing import Pool
 
 all_link_and_name_and_size = []
 
-def get_html(url):
+def get_data(url):
     req = requests.get(url)
-    return req.text
-
-def get_data(html):
+    html = req.text
     soup = BeautifulSoup(html, "html.parser")
     all_tr = soup.find("div", id="index").find_all("table")
 
@@ -37,6 +36,7 @@ def get_data(html):
             a_text = link_and_name[0][2].text
 
             all_link_and_name_and_size.append({"link": a_href, "name": a_text, "size": size})
+            print("parse kino ", j)
 
 def sort_list_dict(how):
     all_link_and_name_and_size.sort(key=lambda d: d[how])
@@ -46,7 +46,7 @@ app = Flask(__name__)
 @app.route("/new", methods=["GET"])
 def new():
     all_link_and_name_and_size.clear()
-    get_data(get_html("http://rutor.info/new"))
+    get_data("http://rutor.info/new")
     sort_list_dict("name")
     print("parse new")
     return render_template("index.html", content=all_link_and_name_and_size)
@@ -54,20 +54,27 @@ def new():
 @app.route("/top", methods=["GET"])
 def top():
     all_link_and_name_and_size.clear()
-    get_data(get_html("http://rutor.info/top"))
+    get_data("http://rutor.info/top")
     sort_list_dict("name")
     print("parse top")
     return render_template("index.html", content=all_link_and_name_and_size)
 
+new_url = []
+for i in range(0, 30):
+    new_url.append("http://rutor.info/browse/{}/1/0/2".format(i))
+
 @app.route("/kino", methods=["GET"])
 def kino():
     all_link_and_name_and_size.clear()
-    for i in range(0, 30):
-        new_url = "http://rutor.info/browse/{}/1/0/2".format(i)
-        get_data(get_html(new_url))
-        print("parse kino ", i)
+    
+    #     get_data(get_html(new_url))
+        # print("parse kino ", i)
+    pool = Pool(4)
+    pool.starmap(get_data, new_url)
+    pool.close()
+    pool.join()
 
-    sort_list_dict("name")
+    #sort_list_dict("name")
 
     return render_template("index.html", content=all_link_and_name_and_size)
 
