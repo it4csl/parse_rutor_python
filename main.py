@@ -51,6 +51,14 @@ def new():
     print("parse new")
     return render_template("index.html", content=all_link_and_name_and_size)
 
+@app.route("/top", methods=["GET"])
+def top():
+    all_link_and_name_and_size.clear()
+    get_data(get_html("http://rutor.info/top"))
+    sort_list_dict("name")
+    print("parse top")
+    return render_template("index.html", content=all_link_and_name_and_size)
+
 @app.route("/kino", methods=["GET"])
 def kino():
     all_link_and_name_and_size.clear()
