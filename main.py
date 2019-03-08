@@ -7,6 +7,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from multiprocessing import Pool
+import multiprocessing.dummy as multiprocessing
 
 all_link_and_name_and_size = []
 
@@ -36,46 +37,44 @@ def get_data(url):
             a_text = link_and_name[0][2].text
 
             all_link_and_name_and_size.append({"link": a_href, "name": a_text, "size": size})
-            print("parse kino ", j)
 
 def sort_list_dict(how):
     all_link_and_name_and_size.sort(key=lambda d: d[how])
 
-app = Flask(__name__)
+if __name__ == '__main__':
+    app = Flask(__name__)
 
-@app.route("/new", methods=["GET"])
-def new():
-    all_link_and_name_and_size.clear()
-    get_data("http://rutor.info/new")
-    sort_list_dict("name")
-    print("parse new")
-    return render_template("index.html", content=all_link_and_name_and_size)
+    @app.route("/new", methods=["GET"])
+    def new():
+        all_link_and_name_and_size.clear()
+        get_data("http://rutor.info/new")
+        sort_list_dict("name")
+        print("parse new")
+        return render_template("index.html", content=all_link_and_name_and_size)
 
-@app.route("/top", methods=["GET"])
-def top():
-    all_link_and_name_and_size.clear()
-    get_data("http://rutor.info/top")
-    sort_list_dict("name")
-    print("parse top")
-    return render_template("index.html", content=all_link_and_name_and_size)
+    @app.route("/top", methods=["GET"])
+    def top():
+        all_link_and_name_and_size.clear()
+        get_data("http://rutor.info/top")
+        sort_list_dict("name")
+        print("parse top")
+        return render_template("index.html", content=all_link_and_name_and_size)
 
-new_url = []
-for i in range(0, 30):
-    new_url.append("http://rutor.info/browse/{}/1/0/2".format(i))
+    new_url = []
+    for i in range(0, 30):
+        new_url.append("http://rutor.info/browse/{}/1/0/2".format(i))
 
-@app.route("/kino", methods=["GET"])
-def kino():
-    all_link_and_name_and_size.clear()
-    
-    #     get_data(get_html(new_url))
-        # print("parse kino ", i)
-    pool = Pool(4)
-    pool.starmap(get_data, new_url)
-    pool.close()
-    pool.join()
+    @app.route("/kino", methods=["GET"])
+    def kino():
+        all_link_and_name_and_size.clear()
+        
+        p = multiprocessing.Pool(10)
+        p.map(get_data, new_url)
+        p.close()
+        p.join()
 
-    #sort_list_dict("name")
+        sort_list_dict("name")
 
-    return render_template("index.html", content=all_link_and_name_and_size)
+        return render_template("index.html", content=all_link_and_name_and_size)
 
-app.run(debug = True, host = "localhost")
+    app.run(debug = True, host = "localhost")
