@@ -21,7 +21,7 @@ def get_data(url):
     for i in range(1, len(all_tr)):
         if (len(all_tr[i].contents[1]) < 4): continue
         url = "http://the-rutor.org" + all_tr[i].contents[1].contents[3].attrs["href"]
-        text = all_tr[i].contents[1].contents[3].text.getdecoder('utf-8')
+        text = all_tr[i].contents[1].contents[3].text
 
         size = ""
         if (len(all_tr[i].contents) == 7): size = all_tr[i].contents[5].text
@@ -31,13 +31,6 @@ def get_data(url):
 
     #     pattern = ["Лицензия", "iTunes", "Пифагор", "Scarabey", "Leonardo"]
     #     if any(key in link_and_name[0][2].text for key in pattern):
-    #         if (len(all_a[j]) == 5): size = all_a[j][3].text
-    #         if (len(all_a[j]) == 4): size = all_a[j][2].text
-
-    #         a_href = "http://the-rutor.info" + (link_and_name[0][2].attrs["href"])
-    #         a_text = link_and_name[0][2].text
-
-    #         all_link_and_name_and_size.append({"link": a_href, "name": a_text, "size": size})
 
 if __name__ == '__main__':
     app = Flask(__name__)
