@@ -10,6 +10,8 @@ from multiprocessing import Pool
 import multiprocessing.dummy as multiprocessing
 
 all_link_and_name_and_size = []
+BASE_URL_TOP = "http://rutor.info/top"
+BASE_URL_NEW = "http://rutor.info/new"
 
 def get_data(url):
     req = requests.get(url)
@@ -47,7 +49,7 @@ if __name__ == '__main__':
     @app.route("/new", methods=["GET"])
     def new():
         all_link_and_name_and_size.clear()
-        get_data("http://rutor.info/new")
+        get_data(BASE_URL_NEW)
         sort_list_dict("name")
         print("parse new")
         return render_template("index.html", content=all_link_and_name_and_size)
@@ -55,7 +57,7 @@ if __name__ == '__main__':
     @app.route("/top", methods=["GET"])
     def top():
         all_link_and_name_and_size.clear()
-        get_data("http://rutor.info/top")
+        get_data(BASE_URL_TOP)
         sort_list_dict("name")
         print("parse top")
         return render_template("index.html", content=all_link_and_name_and_size)
@@ -68,10 +70,7 @@ if __name__ == '__main__':
     def kino():
         all_link_and_name_and_size.clear()
         
-        p = multiprocessing.Pool(10)
-        p.map(get_data, new_url)
-        p.close()
-        p.join()
+        map(get_data, new_url)
 
         sort_list_dict("name")
 
