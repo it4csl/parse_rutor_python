@@ -61,16 +61,21 @@ if __name__ == '__main__':
         sort_list_dict("name")
         print("parse top")
         return render_template("index.html", content=all_link_and_name_and_size)
-
+    count_page = 60
     new_url = []
-    for i in range(0, 30):
+    for i in range(0, count_page):
         new_url.append("http://rutor.info/browse/{}/1/0/2".format(i))
 
     @app.route("/kino", methods=["GET"])
     def kino():
         all_link_and_name_and_size.clear()
+
+        p = multiprocessing.Pool(count_page)
+        p.map(get_data, new_url)
+        p.close()
+        p.join()
         
-        map(get_data, new_url)
+        #map(get_data, new_url)
 
         sort_list_dict("name")
 
