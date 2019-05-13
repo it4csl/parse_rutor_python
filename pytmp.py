@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-str = {"name": {"link": ["1", "2", "3"], "size": [10, 20, 30]}, "name2": {"link": ["11", "22", "33"], "size": [101, 202, 303]}}
-str["name"]["link"].append(6)
-print(str[0])
+str = {"name": {"link": [], "size": []}, "name2": {"link": [], "size": []}}
+
+str2 = ["name", "name2"]
+
+for i in str2:
+    str[i]["link"].append("url")
+    str[i]["size"].append(1)
+
+#print(str)
+for i in str:
+    print(i)

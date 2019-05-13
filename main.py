@@ -44,16 +44,19 @@ def sort_list_dict(how):
     all_link_name_size.sort(key=lambda d: d[how])
 
 # ################################################
-get_data(BASE_URL_NEW)
+get_data("http://rutor.info/browse/0/1/0/2")
 sort_list_dict("name")
-all_link_name_sizearr = []
+all_link_name_sizearr = {}
+
 def size_in_line():
-    for i in range(0, len(all_link_name_size)):
-        if ((all_link_name_size[i]["name"].split(')')[0] + ")") in (all_link_name_sizearr[i]["name"].split(')')[0] + ")")):
-            all_link_name_sizearr.append({"link": all_link_name_size[i]["link"], "name": all_link_name_size[i]["name"].split(')')[0] + ")", "size": []})
-        print(all_link_name_size[i]["name"].split(')')[0] + ")")
+    #link = []
+    #size = []
+    for i in all_link_name_size:
+        all_link_name_sizearr[i["name"].split(')')[0] + ")"] = i["link"]
+
 
 size_in_line()
+print(all_link_name_sizearr)
 # ################################################
 
 # if __name__ == '__main__':
