@@ -7,7 +7,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from multiprocessing import Pool
-import multiprocessing.dummy as multiprocessing
+#import multiprocessing.dummy as multiprocessing
 
 all_link_name_size = []
 BASE_URL_TOP = "http://rutor.info/top"
