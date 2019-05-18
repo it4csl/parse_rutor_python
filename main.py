@@ -105,7 +105,6 @@ if __name__ == '__main__':
         #     p.start()
             #get_data(i)
 
-
         #map(get_data, new_url)
 
         sort_list_dict("name")
