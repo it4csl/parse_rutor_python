@@ -7,7 +7,9 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from multiprocessing import Pool
-#import multiprocessing.dummy as multiprocessing
+import multiprocessing.dummy as multiprocessing
+import multiprocessing
+from multiprocessing import Process
 
 all_link_name_size = []
 BASE_URL_TOP = "http://rutor.info/top"
@@ -60,6 +62,10 @@ def sort_list_dict(how):
 # print(all_link_name_sizearr)
 # ################################################
 
+# def moolti_proc():
+#     with Pool() as p:
+#         p.map(get_data, new_url)
+
 if __name__ == '__main__':
     app = Flask(__name__)
 
@@ -86,26 +92,10 @@ if __name__ == '__main__':
 
     @app.route("/kino", methods=["GET"])
     def kino():
-        #all_link_name_size.clear()
-
-        # p = multiprocessing.Pool(count_page)
-        # p.map(get_data, new_url)
-        # p.close()
-        # p.join()
-
-       # procs = []
-
-        with Pool(20) as p:
-            p.map(get_data, new_url)
-            
-        # for i in new_url:
-        #     p = Process(target=get_data, args=(i,))
-        #     print(p)
-            
-        #     p.start()
-            #get_data(i)
-
-        #map(get_data, new_url)
+        all_link_name_size.clear()
+        
+        for i in new_url:
+            get_data(i)
 
         sort_list_dict("name")
 
