@@ -12,6 +12,7 @@ BASE_URL_TOP = "http://rutor.info/top"
 BASE_URL_NEW = "http://rutor.info/new"
 
 def get_data(url):
+
     req = requests.get(url)
     html = req.text
     soup = BeautifulSoup(html, "html.parser")
@@ -68,7 +69,7 @@ if __name__ == '__main__':
     @app.route("/kino", methods=["GET"])
     def kino():
         all_link_name_size.clear()
-
+        
         for i in new_url:
             get_data(i)
 
