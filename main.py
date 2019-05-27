@@ -6,8 +6,6 @@ from bs4 import BeautifulSoup
 from flask import Flask
 from flask import request
 from flask import render_template
-from multiprocessing import Pool
-import multiprocessing.dummy as multiprocessing
 
 all_link_name_size = []
 BASE_URL_TOP = "http://rutor.info/top"
@@ -43,56 +41,39 @@ def get_data(url):
 def sort_list_dict(how):
     all_link_name_size.sort(key=lambda d: d[how])
 
-# ################################################
-get_data(BASE_URL_NEW)
-sort_list_dict("name")
-all_link_name_sizearr = []
-def size_in_line():
-    for i in range(0, len(all_link_name_size)):
-        if ((all_link_name_size[i]["name"].split(')')[0] + ")") in (all_link_name_sizearr[i]["name"].split(')')[0] + ")")):
-            all_link_name_sizearr.append({"link": all_link_name_size[i]["link"], "name": all_link_name_size[i]["name"].split(')')[0] + ")", "size": []})
-        print(all_link_name_size[i]["name"].split(')')[0] + ")")
+if __name__ == '__main__':
+    app = Flask(__name__)
 
-size_in_line()
-# ################################################
+    @app.route("/new", methods=["GET"])
+    def new():
+        all_link_name_size.clear()
+        get_data(BASE_URL_NEW)
+        sort_list_dict("name")
+        print("parse new")
+        return render_template("index.html", content=all_link_name_size)
 
-# if __name__ == '__main__':
-#     app = Flask(__name__)
+    @app.route("/top", methods=["GET"])
+    def top():
+        all_link_name_size.clear()
+        get_data(BASE_URL_TOP)
+        sort_list_dict("name")
+        print("parse top")
+        return render_template("index.html", content=all_link_name_size)
 
-#     @app.route("/new", methods=["GET"])
-#     def new():
-#         all_link_name_size.clear()
-#         get_data(BASE_URL_NEW)
-#         sort_list_dict("name")
-#         print("parse new")
-#         return render_template("index.html", content=all_link_name_size)
+    count_page = 60
+    new_url = []
+    for i in range(0, count_page):
+        new_url.append("http://rutor.info/browse/{0}/1/0/2".format(i))
 
-#     @app.route("/top", methods=["GET"])
-#     def top():
-#         all_link_name_size.clear()
-#         get_data(BASE_URL_TOP)
-#         sort_list_dict("name")
-#         print("parse top")
-#         return render_template("index.html", content=all_link_name_size)
+    @app.route("/kino", methods=["GET"])
+    def kino():
+        all_link_name_size.clear()
 
-#     count_page = 60
-#     new_url = []
-#     for i in range(0, count_page):
-#         new_url.append("http://rutor.info/browse/{0}/1/0/2".format(i))
+        for i in new_url:
+            get_data(i)
 
-#     @app.route("/kino", methods=["GET"])
-#     def kino():
-#         all_link_name_size.clear()
+        sort_list_dict("name")
 
-#         p = multiprocessing.Pool(count_page)
-#         p.map(get_data, new_url)
-#         p.close()
-#         p.join()
-        
-#         #map(get_data, new_url)
+        return render_template("index.html", content=all_link_name_size)
 
-#         sort_list_dict("name")
-
-#         return render_template("index.html", content=all_link_name_size)
-
-#     app.run(debug = True, host = "localhost")
+    app.run(debug = True, host = "localhost")
