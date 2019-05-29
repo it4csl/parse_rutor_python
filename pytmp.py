@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-str = {"name": {"link": [], "size": []}, "name2": {"link": [], "size": []}}
+from multiprocessing import Pool
 
-str2 = ["name", "name2"]
+def f(x):
+    return x*x
 
-for i in str2:
-    str[i]["link"].append("url")
-    str[i]["size"].append(1)
-
-#print(str)
-for i in str:
-    print(i)
+if __name__ == '__main__':
+    with Pool(5) as p:
+        print(p.map(f, [1, 2, 3]))

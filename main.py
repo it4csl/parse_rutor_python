@@ -7,9 +7,6 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from multiprocessing import Pool
-import multiprocessing.dummy as multiprocessing
-import multiprocessing
-from multiprocessing import Process
 
 all_link_name_size = []
 BASE_URL_TOP = "http://rutor.info/top"
@@ -45,26 +42,6 @@ def get_data(url):
 
 def sort_list_dict(how):
     all_link_name_size.sort(key=lambda d: d[how])
-
-# ################################################
-# get_data("http://rutor.info/browse/0/1/0/2")
-# sort_list_dict("name")
-# all_link_name_sizearr = {}
-
-# def size_in_line():
-#     #link = []
-#     #size = []
-#     for i in all_link_name_size:
-#         all_link_name_sizearr[i["name"].split(')')[0] + ")"] = i["link"]
-
-
-# size_in_line()
-# print(all_link_name_sizearr)
-# ################################################
-
-# def moolti_proc():
-#     with Pool() as p:
-#         p.map(get_data, new_url)
 
 if __name__ == '__main__':
     app = Flask(__name__)
