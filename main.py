@@ -6,7 +6,10 @@ from bs4 import BeautifulSoup
 from flask import Flask
 from flask import request
 from flask import render_template
+<<<<<<< HEAD
 from multiprocessing import Pool
+=======
+>>>>>>> e70438d74678577a5f5910c88ba4b299d46c5510
 
 all_link_name_size = []
 BASE_URL_TOP = "http://rutor.info/top"
