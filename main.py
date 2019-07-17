@@ -45,6 +45,10 @@ def sort_list_dict(how):
 if __name__ == '__main__':
     app = Flask(__name__)
 
+    @app.route("/", methods=["GET"])
+    def start():
+        return render_template("index.html", content=all_link_name_size)
+
     @app.route("/new", methods=["GET"])
     def new():
         all_link_name_size.clear()
@@ -72,6 +76,7 @@ if __name__ == '__main__':
         
         for i in new_url:
             get_data(i)
+            print("page ", new_url.index(i))
 
         sort_list_dict("name")
 
