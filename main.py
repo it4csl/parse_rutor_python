@@ -29,7 +29,7 @@ def get_data(url):
         size = ""
         a_href = ""
         a_text = ""
-        pattern = ["Лицензия", "iTunes", "Пифагор", "Scarabey", "Leonardo"]
+        pattern = ["Лицензия", "iTunes", "Пифагор", "Scarabey", "Leonardo", "CВ Студия"]
         if any(key in link_and_name[0][2].text for key in pattern):
             if (len(all_a[j]) == 5): size = all_a[j][3].text
             if (len(all_a[j]) == 4): size = all_a[j][2].text
